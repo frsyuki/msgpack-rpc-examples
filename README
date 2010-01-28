@@ -1,24 +1,25 @@
 
 $ ruby balancer.rb 5101 &
-
+$ ruby balancer.rb 5102 &
 $ ruby master.rb 5201 &
-
 $ ruby master.rb 5202 &
+$ ruby master.rb 5203 &
+$ ruby master.rb 5204 &
+$ ruby client.rb 5301 127.0.0.1:5101 127.0.0.1:5102
 
-$ ruby imprpc 127.0.0.1 5101
-
+$ ruby imprpc 127.0.0.1 5101   # balancer 1
 >> call :add_node, "127.0.0.1", 5201
-=> nil
-
 >> call :add_node, "127.0.0.1", 5202
-=> nil
+>> exit
 
->> call :get_nodes
-=> [["127.0.0.1", 5201], ["127.0.0.1", 5202]]
+$ ruby imprpc 127.0.0.1 5102   # balancer 2
+>> call :add_node, "127.0.0.1", 5203
+>> call :add_node, "127.0.0.1", 5204
+>> exit
 
+$ ruby imprpc 127.0.0.1 5301   # client
 >> call :set, "key1", "val1"
 => nil
-
 >> call :get, "key1"
 => "val1"
 

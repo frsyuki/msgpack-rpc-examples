@@ -16,6 +16,8 @@ class Balancer
 				# FIXME retry
 			}
 		}
+
+		# FIXME asynchronous, no-error
 		nil
 	end
 
