@@ -1,0 +1,24 @@
+
+$ ruby balancer.rb 5101 &
+
+$ ruby master.rb 5201 &
+
+$ ruby master.rb 5202 &
+
+$ ruby imprpc 127.0.0.1 5101
+
+>> call :add_node, "127.0.0.1", 5201
+=> nil
+
+>> call :add_node, "127.0.0.1", 5202
+=> nil
+
+>> call :get_nodes
+=> [["127.0.0.1", 5201], ["127.0.0.1", 5202]]
+
+>> call :set, "key1", "val1"
+=> nil
+
+>> call :get, "key1"
+=> "val1"
+
